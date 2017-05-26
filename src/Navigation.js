@@ -18,11 +18,11 @@ function registerComponent(screenID, generator, store = undefined, Provider = un
   if (store && Provider) {
     return _registerComponentRedux(screenID, generator, store, Provider, options);
   } else {
-    return _registerComponentNoRedux(screenID, generator);
+    return _registerComponentNoRedux(screenID, generator, options);
   }
 }
 
-function _registerComponentNoRedux(screenID, generator) {
+function _registerComponentNoRedux(screenID, generator, options) {
   const generatorWrapper = function() {
     const InternalComponent = generator();
     if (!InternalComponent) {
@@ -48,7 +48,7 @@ function _registerComponentNoRedux(screenID, generator) {
 
       render() {
         return (
-          <InternalComponent testID={screenID} navigator={this.navigator} {...this.state.internalProps} />
+          <InternalComponent testID={screenID} navigator={this.navigator} {...this.state.internalProps} {...options} />
         );
       }
     };
